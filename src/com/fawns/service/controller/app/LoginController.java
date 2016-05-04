@@ -14,19 +14,23 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fawns.service.common.base.BaseController;
 import com.fawns.service.common.constant.ServiceCode;
 import com.fawns.service.common.entity.ResultEntity;
 
+@Controller
+@RequestMapping("/login")
 public class LoginController extends BaseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-	@RequestMapping(value = "/member_login", method = RequestMethod.POST)
-	public void login(HttpServletRequest request, Map<String, Object> map) {
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public @ResponseBody Object login(HttpServletRequest request, Map<String, Object> map) {
 		ResultEntity resultEntity = new ResultEntity();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -63,5 +67,17 @@ public class LoginController extends BaseController {
 		} else {
 			token.clear();
 		}
+
+		return resultEntity;
+	}
+
+	@RequestMapping(value = "/logout")
+	public @ResponseBody Object logout(HttpServletRequest request) {
+		ResultEntity resultEntity = new ResultEntity();
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		// 登出成功
+		resultEntity.setCode(ServiceCode.Success.S00003);
+		return resultEntity;
 	}
 }

@@ -92,4 +92,9 @@
 	<!-- 服务器启动servlet所用 -->
 	<bean name="springContextUtil" class="com.fawns.service.util.SpringContextUtil"
 		scope="singleton" />
+
+	<mvc:interceptors>
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+		<bean class="com.fawns.service.common.interceptor.KeyInterceptor" />
+	</mvc:interceptors>
 </beans> 

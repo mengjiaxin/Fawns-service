@@ -24,6 +24,11 @@ public class ServiceCode {
 		 * 登录成功
 		 */
 		String S00002 = "S00002";
+		
+		/**
+		 * 登出成功
+		 */
+		String S00003 = "S00003";
 	}
 
 	/**

@@ -55,8 +55,6 @@ public class User implements Serializable {
 	private String createoperator;
 	private Date updatetime;
 	private String updateoperator;
-	private String[] roleIds;
-	private List<Role> roles = Lists.newArrayList();
 	
 	public Integer getId() {
 		return id;
@@ -140,17 +138,6 @@ public class User implements Serializable {
 		this.updateoperator = updateoperator;
 	}
 	
-	public String[] getRoleIds() {
-		return roleIds;
-	}
-	public void setRoleIds(String[] roleIds) {
-		this.roleIds = roleIds;
-	}
-	public List<Role> getRoles() {
-		return roles;
-	}
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
-	}
+	
 	
 }

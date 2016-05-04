@@ -16,9 +16,6 @@
 
 package com.fawns.service.common.shiro;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -35,13 +32,9 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fawns.service.entity.system.Role;
-import com.fawns.service.entity.system.RolePermission;
-import com.fawns.service.entity.system.User;
-import com.fawns.service.services.system.RolePermissionService;
-import com.fawns.service.services.system.UserRoleService;
-import com.fawns.service.services.system.UserService;
 import com.fawns.service.common.constant.Constants;
+import com.fawns.service.entity.system.User;
+import com.fawns.service.services.system.UserService;
 
 /** 
  *
@@ -61,12 +54,6 @@ public class ShiroDbRealm extends AuthorizingRealm {
 
 	@Autowired
 	protected UserService userService;
-	
-	@Autowired
-	protected UserRoleService userRoleService;
-	
-	@Autowired
-	protected RolePermissionService rolePermissionService;
 	
 	/**
 	 * 给ShiroDbRealm提供编码信息，用于密码密码比对
@@ -110,28 +97,9 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		String username = (String)principals.fromRealm(getName()).iterator().next();
-		User user = userService.getUser(username);
-		List<Role> userRoles = userRoleService.getUserRoles(user.getUsername());
-		List<Integer> userRolesList = new ArrayList<Integer>();
-		for (Role userRole : userRoles) {
-			userRolesList.add(userRole.getId());
-		}
-		List<RolePermission> rolePermissions = rolePermissionService.getRolePermissions(userRolesList);
-		if (!rolePermissions.isEmpty()) {
-			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-			String permission = "";
-			for (RolePermission rolePermission : rolePermissions) {
-				//基于Permission的权限信息,shiro权限字符串为：“当前资源英文名称:操作名英文名称”
-				permission = rolePermission.getPermission();
-				if(permission.indexOf(":")!=-1){ //判断字符串中是否包含:号，如果包含
-					info.addStringPermission(permission);
-				}
-			}
-			return info;
-		} else {
-			return null;
-		}
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		
+		return info;
 	}
 	
 	/**

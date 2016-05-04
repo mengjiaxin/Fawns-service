@@ -97,3 +97,129 @@
 2016-05-04 19:05:07,194-[TS] DEBUG localhost-startStop-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@69578468]
 2016-05-04 19:05:07,199-[TS] DEBUG localhost-startStop-1 java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
 2016-05-04 19:05:07,215-[TS] DEBUG localhost-startStop-1 java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 20:31:05,049-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@8625f5]
+2016-05-04 20:31:05,065-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 20:31:05,175-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:24:30,308-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:24:30,327-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 21:24:30,437-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:24:51,665-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:24:51,668-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: select count(0) as con from sys_log l 
+2016-05-04 21:24:51,671-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:24:51,870-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:24:51,872-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT l.id, l.oper_id, l.oper_ip, l.oper_time, l.oper_type, l.content, l.department_id, l.remark from sys_log l order by ? ? limit ?,? 
+2016-05-04 21:24:51,876-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: l.oper_time(String), desc(String), 0(Long), 10(Long)
+2016-05-04 21:34:44,812-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:34:44,815-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: select count(0) as con from sys_dictionary 
+2016-05-04 21:34:44,816-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:34:44,824-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:34:44,827-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary order by sort asc limit ?,? 
+2016-05-04 21:34:44,831-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: 0(Long), 10(Long)
+2016-05-04 21:34:50,311-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:34:50,315-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: select count(0) as con from sys_dictionary 
+2016-05-04 21:34:50,317-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:34:50,325-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:34:50,328-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary order by sort asc limit ?,? 
+2016-05-04 21:34:50,330-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: 0(Long), 10(Long)
+2016-05-04 21:34:57,765-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:34:57,767-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: select count(0) as con from sys_dictionary 
+2016-05-04 21:34:57,769-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:34:57,779-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:34:57,785-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary order by sort asc limit ?,? 
+2016-05-04 21:34:57,799-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: 0(Long), 10(Long)
+2016-05-04 21:35:07,204-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:35:07,208-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: select count(0) as con from sys_dictionary 
+2016-05-04 21:35:07,211-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:35:07,226-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:35:07,231-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary order by sort asc limit ?,? 
+2016-05-04 21:35:07,234-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: 0(Long), 10(Long)
+2016-05-04 21:36:09,061-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:09,063-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:09,067-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:17,230-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:17,231-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:17,233-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:17,415-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:17,417-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:17,419-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:17,584-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:17,587-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:17,591-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:17,752-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:17,754-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:17,760-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:17,950-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:17,963-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:17,965-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:18,119-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:18,121-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:18,124-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:18,296-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:18,300-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:18,305-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:18,490-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:18,493-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:18,495-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:36:50,949-[TS] DEBUG http-8080-3 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:36:50,952-[TS] DEBUG http-8080-3 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:36:50,956-[TS] DEBUG http-8080-3 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:39:34,254-[TS] DEBUG ContainerBackgroundProcessor[StandardEngine[Catalina]] java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@1615fc0]
+2016-05-04 21:39:34,263-[TS] DEBUG ContainerBackgroundProcessor[StandardEngine[Catalina]] java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 21:39:34,315-[TS] DEBUG ContainerBackgroundProcessor[StandardEngine[Catalina]] java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:43:52,318-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@eeac69]
+2016-05-04 21:43:52,337-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 21:43:52,466-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:44:18,559-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@eeac69]
+2016-05-04 21:44:18,565-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:44:18,569-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:45:25,108-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@deec87]
+2016-05-04 21:45:25,128-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 21:45:25,246-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:46:13,575-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@deec87]
+2016-05-04 21:46:13,580-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:46:13,584-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 21:49:50,482-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:49:50,502-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 21:49:50,609-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 21:50:04,652-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@cf5915]
+2016-05-04 21:50:04,656-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 21:50:04,661-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:00:13,393-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@18dcbbd]
+2016-05-04 22:00:13,412-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 22:00:13,519-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 22:00:45,647-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@18dcbbd]
+2016-05-04 22:00:45,650-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:00:45,653-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:01:01,621-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@18dcbbd]
+2016-05-04 22:01:01,624-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:01:01,627-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:01:07,901-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@18dcbbd]
+2016-05-04 22:01:07,904-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:01:07,907-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:01:20,382-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@18dcbbd]
+2016-05-04 22:01:20,385-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:01:20,388-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:01:23,892-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@18dcbbd]
+2016-05-04 22:01:23,896-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:01:23,898-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:05:33,855-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@18dcbbd]
+2016-05-04 22:05:33,860-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:05:33,864-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:06:34,668-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@fdb2f]
+2016-05-04 22:06:34,688-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 22:06:34,798-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 22:07:14,428-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@fdb2f]
+2016-05-04 22:07:14,433-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:07:14,436-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:08:14,328-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@121852b]
+2016-05-04 22:08:14,379-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 22:08:14,496-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
+2016-05-04 22:09:18,239-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@121852b]
+2016-05-04 22:09:18,242-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:09:18,245-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:09:49,557-[TS] DEBUG http-8080-1 java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@121852b]
+2016-05-04 22:09:49,560-[TS] DEBUG http-8080-1 java.sql.Connection - ==>  Preparing: SELECT u.id, u.username, u.password, u.realname, u.departmentId, u.positionId, u.status, u.createtime, u.lastLoginTime, u.createoperator, u.updatetime, u.updateoperator ,d.departmentid,d.name as departmentName from sys_user u left join sys_department d on u.departmentId=d.departmentid WHERE u.username = ? 
+2016-05-04 22:09:49,562-[TS] DEBUG http-8080-1 java.sql.PreparedStatement - ==> Parameters: admin(String)
+2016-05-04 22:12:18,629-[TS] DEBUG main java.sql.Connection - ooo Using Connection [org.apache.commons.dbcp.PoolableConnection@fdb2f]
+2016-05-04 22:12:18,660-[TS] DEBUG main java.sql.Connection - ==>  Preparing: select id, dictionary_type, dictionary_code, status, name, remark, parent_id, sort, create_date, create_oper_id, update_date, update_oper_id from sys_dictionary where status='1' ORDER BY dictionary_type,sort asc 
+2016-05-04 22:12:18,793-[TS] DEBUG main java.sql.PreparedStatement - ==> Parameters: 
