@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.fawns.service.dao.system.DictionaryMapper">
+	<resultMap id="dictionaryResultMap" type="com.fawns.service.entity.system.Dictionary">
+		<result property="id" column="id" javaType="string" jdbcType="VARCHAR"/>
+		<result property="dictionaryType" column="dictionary_type" javaType="string" jdbcType="VARCHAR"/>
+		<result property="dictionaryCode" column="dictionary_code" javaType="string" jdbcType="VARCHAR"/>
+		<result property="status" column="status" javaType="string" jdbcType="VARCHAR"/>
+		<result property="name" column="name" javaType="string" jdbcType="VARCHAR"/>
+		<result property="remark" column="remark" javaType="string" jdbcType="VARCHAR"/>
+		<result property="parentId" column="parent_id" javaType="string" jdbcType="VARCHAR"/>
+		<result property="sort" column="sort" javaType="int" jdbcType="INTEGER"/>
+		<result property="createDate" column="create_date" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="createOperId" column="create_oper_id" javaType="string" jdbcType="VARCHAR"/>
+		<result property="updateDate" column="update_date" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="updateOperId" column="update_oper_id" javaType="string" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,
+       	dictionary_type,
+       	dictionary_code,
+       	status,
+       	name,
+       	remark,
+       	parent_id,
+       	sort,
+       	create_date,
+       	create_oper_id,
+       	update_date,
+       	update_oper_id
+	</sql>
+	
+	<!-- 根据条件得到字典的信息，字典初始化所用 -->
+	<select id="queryDictionaryForInit" resultMap="dictionaryResultMap" parameterType="map">
+			select 
+				<include refid="Base_Column_List" /> 
+			from sys_dictionary where status='1'
+			<if test="dictionaryType != null and dictionaryType !=''">
+				dictionary_type=#{dictionaryType}
+			</if>
+		 	ORDER BY dictionary_type,sort asc
+	</select>
+	
+	<select id="getDictionaryTree" resultMap="dictionaryResultMap">
+		SELECT 
+			<include refid="Base_Column_List" /> 
+		FROM sys_dictionary
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="dictionaryType != null and dictionaryType != ''">
+				dictionary_type=#{dictionaryType}
+			</if>
+		</trim>
+		 ORDER BY dictionary_type,sort asc
+	</select>
+	
+	<select id="queryDictionaryListByCondition" resultMap="dictionaryResultMap" parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from sys_dictionary
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null and id != ''">
+				AND parent_id=#{id} or id=#{id}
+			</if>
+			<if test="status != null and status != ''">
+				AND status=#{status}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND create_date &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND create_date &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND name LIKE "%"#{keywords}"%"
+      		</if>
+      	</trim>
+		order by sort asc limit #{startIndex},#{endIndex}
+	</select>
+	
+	<select id="queryDictionaryNumByCondition" resultType="long" parameterType="map">
+		select count(0) as con from sys_dictionary
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null and id != ''">
+				AND parent_id=#{id} or id=#{id}
+			</if>
+			<if test="status != null and status != ''">
+				AND status=#{status}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND create_date &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND create_date &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND name LIKE "%"#{keywords}"%"
+      		</if>
+      	</trim>
+	</select>
+	
+	<!-- 保存新字典信息 -->
+	<insert id="addDictionary" parameterType="com.fawns.service.entity.system.Dictionary">
+		insert into sys_Dictionary (
+			id,
+	       	dictionary_type,
+	       	dictionary_code,
+	       	status,
+	       	name,
+	       	remark,
+	       	parent_id,
+	       	sort,
+	       	create_date,
+	       	create_oper_id
+		)
+		values(
+			#{id},
+			#{dictionaryType},
+			#{dictionaryCode},
+			#{status},
+			#{name},
+			#{remark},
+			#{parentId},
+			#{sort},
+			#{createDate},
+			#{createOperId}
+		)
+	</insert>
+	
+	<!-- 删除 部门信息 -->
+	<delete id="deleteDictionary" parameterType="java.lang.String">
+		<![CDATA[
+			delete from sys_dictionary where id=#{id}
+		]]>
+	</delete>
+	
+	<!--检测字典信息是否存在 -->
+	<select id="checkDictionary" resultType="com.fawns.service.entity.system.Dictionary" parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from sys_dictionary
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="dictionaryType != null and dictionaryType != ''">
+				dictionary_type=#{dictionaryType}
+			</if>
+			<if test="dictionaryCode != null and dictionaryCode != ''">
+				AND dictionary_code=#{dictionaryCode}
+			</if>
+      	</trim>
+	</select>
+	
+	<!--根据部门代码得到部门实体bean -->
+	<select id="getDictionary" resultType="com.fawns.service.entity.system.Dictionary" parameterType="java.lang.String">
+		<![CDATA[
+			select 
+				b.name as parentName,
+				a.parent_id parentId,
+				a.id as id,
+		       	a.dictionary_type as dictionaryType,
+		       	a.dictionary_code as dictionaryCode,
+		       	a.status as status,
+		       	a.name as name,
+		       	a.remark as remark,
+		       	a.sort
+				from sys_dictionary b,
+			( select * from sys_dictionary where id=#{id} ) a where a.parent_id=b.id
+		]]>
+	</select>
+	
+	<!-- 修改部门信息 -->
+	<update id="editDictionary" parameterType="com.fawns.service.entity.system.Dictionary">
+		UPDATE sys_dictionary 
+			<set>
+				<if test="dictionaryType!=null">
+				dictionary_type = #{dictionaryType},
+				</if>
+				<if test="dictionaryCode!=null">
+				dictionary_code = #{dictionaryCode},
+				</if>
+				<if test="status!=null">
+				status = #{status},
+				</if>
+				<if test="name!=null">
+				name = #{name},
+				</if>
+				<if test="remark!=null">
+				remark = #{remark},
+				</if>
+				<if test="parentId!=null">
+				parent_id = #{parentId},
+				</if>
+				<if test="sort!=null">
+				sort = #{sort},
+				</if>
+				<if test="updateDate!=null">
+				update_date = #{updateDate},
+				</if>
+				<if test="updateOperId!=null">
+				update_oper_id = #{updateOperId},
+				</if>
+			</set>
+		WHERE 
+			id = #{id}
+	</update>
+	
+	<!-- 得到所有字典类别的信息 -->
+	<select id="queryDictionaryTypeList" resultMap="dictionaryResultMap">
+		<![CDATA[
+			select distinct(dictionary_type) from sys_dictionary where dictionary_type!='1'
+			ORDER BY dictionary_type,sort asc
+		]]>
+	</select>
+</mapper>

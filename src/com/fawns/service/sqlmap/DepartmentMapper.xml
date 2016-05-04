@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.fawns.service.dao.system.DepartmentMapper">
+	<resultMap id="departmentResultMap" type="com.fawns.service.entity.system.Department">
+		<result property="departmentId" column="DEPARTMENTID" javaType="string" jdbcType="VARCHAR"/>
+		<result property="name" column="NAME" javaType="string" jdbcType="VARCHAR"/>
+		<result property="supDepId" column="SUPDEPID" javaType="string" jdbcType="VARCHAR"/>
+		<result property="manager" column="MANAGER" javaType="string" jdbcType="VARCHAR"/>
+		<result property="address" column="ADDRESS" javaType="string" jdbcType="VARCHAR"/>
+		<result property="telphone" column="TELPHONE" javaType="string" jdbcType="VARCHAR"/>
+		<result property="mgrPhone" column="MGRPHONE" javaType="string" jdbcType="VARCHAR"/>
+		<result property="remark" column="REMARK" javaType="string" jdbcType="VARCHAR"/>
+		<result property="createDate" column="CREATEDATE" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="createOperId" column="CREATEOPERID" javaType="string" jdbcType="VARCHAR"/>
+		<result property="updateDate" column="UPDATEDATE" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="updateOperId" column="UPDATEOPERID" javaType="string" jdbcType="VARCHAR"/>
+		<result property="isEnd" column="ISEND" javaType="string" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		departmentid,
+       	name,
+       	supdepid,
+       	manager,
+       	address,
+       	telphone,
+       	mgrphone,
+       	remark,
+       	createdate,
+       	createoperid,
+       	updatedate,
+       	updateoperid,
+       	isend
+	</sql>
+	
+	<select id="getDepartmentTree" resultMap="departmentResultMap">
+		SELECT 
+			<include refid="Base_Column_List" /> 
+		FROM sys_department where left(departmentid,LENGTH(#{departmentId}))=#{departmentId} or supdepid=#{departmentId}
+	</select>
+	
+	<select id="queryDepartmentListByCondition" resultMap="departmentResultMap" parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from sys_department
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null and id != ''">
+				AND left(departmentid,LENGTH(#{id}))=#{id} or supdepid=#{id}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND createdate &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND createdate &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND (
+					name LIKE "%"#{keywords}"%"
+				)
+      		</if>
+      	</trim>
+      	order by departmentid asc limit #{startIndex},#{endIndex}
+	</select>
+	
+	<select id="queryDepartmentNumByCondition" resultType="long" parameterType="map">
+		select count(0) as con from sys_department
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null and id != ''">
+				AND left(departmentid,LENGTH(#{id}))=#{id} or supdepid=#{id}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND createdate &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND createdate &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND (
+					name LIKE "%"#{keywords}"%"
+				)
+      		</if>
+      	</trim>
+	</select>
+	
+	<!--根据上级部门得到新部门的部门代码 -->
+	<select id="getNewDepartmentIdBySupDepId" resultType="string" parameterType="java.lang.String">
+		<![CDATA[
+			select max(departmentid) as departmentId 
+			from sys_department
+			where supdepid=#{supdepid} 
+		]]>
+	</select>
+	
+	<!-- 保存新部门信息 -->
+	<insert id="addDepartment" parameterType="com.fawns.service.entity.system.Department">
+		insert into sys_department (
+			DEPARTMENTID,
+			NAME,
+			SUPDEPID,
+			MANAGER,
+			ADDRESS,
+			TELPHONE,
+			MGRPHONE,
+			REMARK,
+			CREATEDATE,
+			CREATEOPERID
+		)
+		values(
+			#{departmentId},
+			#{name},
+			#{supDepId},
+			#{manager},
+			#{address},
+			#{telphone},
+			#{mgrPhone},
+			#{remark},
+			#{createDate},
+			#{createOperId}
+		)
+	</insert>
+	
+	<!-- 删除 部门信息 -->
+	<delete id="deleteDepartment" parameterType="java.lang.String">
+		<![CDATA[
+			delete from sys_department where departmentid=#{departmentId}
+		]]>
+	</delete>
+	
+	<!-- 更新部门级别 -->
+	<update id="updateDepartmentLevel" parameterType="java.lang.String">
+		<![CDATA[
+			UPDATE sys_department set isend='1' where departmentid=#{departmentId}
+		]]>
+	</update>
+	
+	<!--根据部门代码得到部门实体bean -->
+	<select id="getDepartment" resultType="com.fawns.service.entity.system.Department" parameterType="java.lang.String">
+		<![CDATA[
+			select b.name as supdepname,a.* from sys_department b ,
+			( select * from sys_department where departmentid=#{departmentId} ) a where a.supdepid=b.departmentid
+		]]>
+	</select>
+	
+	<!-- 修改部门信息 -->
+	<update id="editDepartment" parameterType="com.fawns.service.entity.system.Department">
+		UPDATE sys_department 
+			<set>
+				<if test="name!=null">
+				name = #{name},
+				</if>
+				<if test="supDepId!=null">
+				supdepid = #{supDepId},
+				</if>
+				<if test="manager!=null">
+				manager = #{manager},
+				</if>
+				<if test="address!=null">
+				address = #{address},
+				</if>
+				<if test="telphone!=null">
+				telphone = #{telphone},
+				</if>
+				<if test="mgrPhone!=null">
+				mgrphone = #{mgrPhone},
+				</if>
+				<if test="remark!=null">
+				remark = #{remark},
+				</if>
+				<if test="updateDate!=null">
+				updatedate = #{updateDate},
+				</if>
+				<if test="updateOperId!=null">
+				updateoperid = #{updateOperId},
+				</if>
+			</set>
+		WHERE 
+			departmentid = #{departmentId}
+	</update>
+</mapper>

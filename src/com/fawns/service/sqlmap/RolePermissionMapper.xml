@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.fawns.service.dao.system.RolePermissionMapper">
+	
+	<resultMap id="rolePermissionResultMap" type="com.fawns.service.entity.system.RolePermission">
+		<result property="roleId" column="role_id" javaType="INTEGER" jdbcType="VARCHAR"/>
+		<result property="permission" column="permission" javaType="string" jdbcType="VARCHAR"/>
+		<result property="createDate" column="create_date" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="createOperId" column="create_oper_id" javaType="string" jdbcType="VARCHAR"/>
+		<result property="updateDate" column="update_date" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="updateOperId" column="update_oper_id" javaType="string" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<insert id="addRolePermission" parameterType="java.util.List">
+		INSERT INTO sys_role_permission (role_id,permission,create_date,create_oper_id)
+		VALUES <foreach collection="list" item="item" index="index"  
+	    separator=",">  
+	    (#{item.roleId}, #{item.permission}, #{item.createDate}, #{item.createOperId})  
+		</foreach>  
+	</insert>
+	
+	<sql id="Base_Column_List">
+		role_id,
+		permission,
+       	create_date,
+       	create_oper_id,
+       	update_date,
+       	update_oper_id
+	</sql>
+	
+	<select id="queryPermissionByRoleId" resultMap="rolePermissionResultMap" parameterType="int">
+		SELECT
+		<include refid="Base_Column_List" />
+		from sys_role_permission where role_id = #{roleId}
+	</select>
+	
+	<delete id="deleteRolePermissionByRoleId" parameterType="int">
+		delete from sys_role_permission where role_id = #{roleId}
+	</delete>
+	
+	<delete id="deleteControlPermissionByControldId" parameterType="string">
+		delete from sys_role_permission where permission = #{controlId}
+	</delete>
+	
+	<select id="getRolePermissions" resultMap="rolePermissionResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		from sys_role_permission where role_id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item} 
+		</foreach>
+	</select>
+</mapper>

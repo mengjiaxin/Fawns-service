@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.fawns.service.dao.system.LogMapper">
+	<resultMap id="logResultMap" type="com.fawns.service.entity.system.Log">
+		<result property="id" jdbcType="INTEGER" column="id"/>
+		<result property="operId" jdbcType="VARCHAR" column="oper_id"/>
+		<result property="operIp" jdbcType="VARCHAR" column="oper_ip"/>
+		<result property="departmentId" jdbcType="VARCHAR" column="department_id"/>
+		<result property="operTime" jdbcType="TIMESTAMP" column="oper_time"/>
+		<result property="operType" jdbcType="VARCHAR" column="oper_type"/>
+		<result property="content" jdbcType="VARCHAR" column="content"/>
+		<result property="remark" jdbcType="VARCHAR" column="remark"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		l.id,
+		l.oper_id,
+		l.oper_ip,
+		l.oper_time,
+		l.oper_type,
+		l.content,
+		l.department_id,
+		l.remark
+	</sql>
+	
+	<!-- 保存日志信息 -->
+	<insert id="saveLog" parameterType="java.util.Map">
+		insert into sys_log 
+		(oper_id,oper_ip,oper_time,oper_type,content,remark,department_id)
+		values(#{operatorId},#{operatorIp},#{operatorTime},#{operType},#{content},#{remark},#{departmentId})
+	</insert>
+	
+	<select id="queryLogListByCondition" resultMap="logResultMap" parameterType="map">
+		SELECT 
+	    <include refid="Base_Column_List" />
+		from sys_log l
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="startDate != null and startDate != ''">
+				 AND l.oper_time &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				 AND l.oper_time &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND l.oper_id LIKE "%"#{keywords}"%"
+      		</if>
+      		<if test="type != null and type != ''">
+				AND l.oper_type = #{type}
+      		</if>
+      	</trim>
+      	order by #{orderName} #{descAsc} limit #{startIndex},#{endIndex}
+	</select>
+	
+	<select id="queryLogNumByCondition" resultType="long" parameterType="map">
+		select count(0) as con from sys_log l
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="startDate != null and startDate != ''">
+				AND l.oper_time &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND l.oper_time &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND l.oper_id LIKE "%"#{keywords}"%"
+      		</if>
+      		<if test="type != null and type != ''">
+				AND l.oper_type = #{type}
+      		</if>
+      	</trim>
+	</select>
+	
+	<!-- 日志清理 -->
+	<delete id="clearLog" parameterType="com.fawns.service.common.entity.ConditionEntity">
+		DELETE FROM sys_log
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="startDate != null and startDate != ''">
+				AND oper_time &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND oper_time &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND oper_id LIKE "%"#{keywords}"%"
+      		</if>
+      		<if test="type != null and type != ''">
+				AND oper_type = #{type}
+      		</if>
+      	</trim>
+	</delete>
+</mapper>

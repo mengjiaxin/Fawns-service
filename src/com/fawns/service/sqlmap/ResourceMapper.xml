@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.fawns.service.dao.system.ResourceMapper">
+	<resultMap id="resourceResultMap" type="com.fawns.service.entity.system.Resource">
+		<result property="id" column="id" javaType="string" jdbcType="VARCHAR"/>
+		<result property="description" column="description" javaType="string" jdbcType="VARCHAR"/>
+		<result property="name" column="name" javaType="string" jdbcType="VARCHAR"/>
+		<result property="action" column="url" javaType="string" jdbcType="VARCHAR"/>
+		<result property="iconUrl" column="icon_url" javaType="string" jdbcType="VARCHAR"/>
+		<result property="parentId" column="parent_id" javaType="string" jdbcType="VARCHAR"/>
+		<result property="sort" column="sort" javaType="int" jdbcType="INTEGER"/>
+		<result property="createDate" column="create_date" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="createOperId" column="create_oper_id" javaType="string" jdbcType="VARCHAR"/>
+		<result property="updateDate" column="update_date" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="updateOperId" column="update_oper_id" javaType="string" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		id,
+       	description,
+       	name,
+       	url,
+       	parent_id,
+       	icon_url,
+       	sort,
+       	create_date,
+       	create_oper_id,
+       	update_date,
+       	update_oper_id
+	</sql>
+	
+	<select id="getResourceTree" resultMap="resourceResultMap">
+		SELECT 
+			<include refid="Base_Column_List" /> 
+		FROM sys_resource ORDER BY sort asc
+	</select>
+	
+	<select id="getMenuTree" resultMap="resourceResultMap">
+		SELECT 
+			<include refid="Base_Column_List" /> 
+		FROM sys_resource where id='Base' or id in
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item} 
+		</foreach>
+		or id in 
+		(
+			select parent_id from sys_resource where id in 
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+				#{item} 
+			</foreach>
+		)
+		ORDER BY sort asc
+	</select>
+	
+	<select id="queryResourceListByCondition" resultMap="resourceResultMap" parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from sys_resource
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null and id != ''">
+				AND parent_id=#{id} or id=#{id}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND create_date &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND create_date &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND name LIKE "%"#{keywords}"%"
+      		</if>
+      	</trim>
+		ORDER BY sort asc limit #{startIndex},#{endIndex}
+	</select>
+	
+	<select id="queryResourceNumByCondition" resultType="long" parameterType="map">
+		select count(0) as con from sys_resource
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="id != null and id != ''">
+				AND parent_id=#{id} or id=#{id}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND create_date &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND create_date &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND name LIKE "%"#{keywords}"%"
+      		</if>
+      	</trim>
+	</select>
+	
+	<!-- 保存新资源信息 -->
+	<insert id="addResource" parameterType="com.fawns.service.entity.system.Resource">
+		insert into sys_resource (
+			id,
+	       	description,
+	       	name,
+	       	url,
+	       	parent_id,
+	       	icon_url,
+	       	sort,
+	       	create_date,
+	       	create_oper_id
+		)
+		values(
+			#{id},
+			#{description},
+			#{name},
+			#{action},
+			#{parentId},
+			#{iconUrl},
+			#{sort},
+			#{createDate},
+			#{createOperId}
+		)
+	</insert>
+	
+	<!-- 删除资源信息 -->
+	<delete id="deleteResource" parameterType="java.lang.String">
+		<![CDATA[
+			delete from sys_resource where id=#{id}
+		]]>
+	</delete>
+	
+	<!--根据资源代码得到资源实体bean -->
+	<select id="getResource" resultType="com.fawns.service.entity.system.Resource" parameterType="java.lang.String">
+	select 
+		b.name as parentName,
+		a.id as id,
+       	a.description as description,
+       	a.name as name,
+       	a.url as action,
+       	a.parent_id as parentId,
+       	a.icon_url as iconUrl,
+       	a.sort as sort 
+		from sys_resource b ,
+			( 
+			select c.id,
+	       	c.description,
+	       	c.name,
+	       	c.url,
+	       	c.parent_id,
+	       	c.icon_url,
+	       	c.sort from sys_resource c where id=#{id} 
+	       	) a where a.parent_id=b.id
+	</select>
+	
+	<!-- 修改资源信息 -->
+	<update id="editResource" parameterType="com.fawns.service.entity.system.Resource">
+		UPDATE sys_resource 
+			<set>
+				<if test="description!=null">
+				description = #{description},
+				</if>
+				<if test="name!=null">
+				name = #{name},
+				</if>
+				<if test="action!=null">
+				url = #{action},
+				</if>
+				<if test="iconUrl!=null">
+				icon_url = #{iconUrl},
+				</if>
+				<if test="sort!=null">
+				sort = #{sort},
+				</if>
+				<if test="updateDate!=null">
+				update_date = #{updateDate},
+				</if>
+				<if test="updateOperId!=null">
+				update_oper_id = #{updateOperId},
+				</if>
+			</set>
+		WHERE 
+			id = #{id}
+	</update>
+	
+	<!-- 把上级资源的url更新为"#"号 -->
+	<update id="updateResourceUrl" parameterType="com.fawns.service.entity.system.Resource">
+		UPDATE sys_resource set url='#' WHERE id = #{parentId}
+	</update>
+</mapper>

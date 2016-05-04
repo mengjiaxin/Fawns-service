@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.fawns.service.dao.system.RoleMapper">
+	<resultMap id="roleResultMap" type="com.fawns.service.entity.system.Role">
+		<result property="id" column="id" javaType="INTEGER" jdbcType="VARCHAR"/>
+		<result property="name" column="name" javaType="string" jdbcType="VARCHAR"/>
+		<result property="description" column="description" javaType="string" jdbcType="VARCHAR"/>
+		<result property="status" column="status" javaType="string" jdbcType="VARCHAR"/>
+		<result property="createDate" column="create_date" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="createOperId" column="create_oper_id" javaType="string" jdbcType="VARCHAR"/>
+		<result property="updateDate" column="update_date" javaType="java.util.Date" jdbcType="DATE"/>
+		<result property="updateOperId" column="update_oper_id" javaType="string" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		r.id,
+		r.name,
+       	r.description,
+       	r.status,
+       	r.create_date,
+       	r.create_oper_id,
+       	r.update_date,
+       	r.update_oper_id
+	</sql>
+	
+	<select id="queryRoleListByCondition" resultMap="roleResultMap" parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		from sys_role r
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="status != null and status != ''">
+				AND r.status=#{status}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND r.create_date &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND r.create_date &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND r.name LIKE "%"#{keywords}"%"
+      		</if>
+      	</trim>
+		order by #{orderName} #{descAsc} limit #{startIndex},#{endIndex}
+	</select>
+	
+	<select id="queryRoleNumByCondition" resultType="long" parameterType="map">
+		select count(0) as con from sys_role r
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="status != null and status != ''">
+				AND r.status=#{status}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				AND r.create_date &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				AND r.create_date &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND r.name LIKE "%"#{keywords}"%"
+      		</if>
+      	</trim>
+	</select>
+	
+	<!-- 保存新角色信息 -->
+	<insert id="addRole" parameterType="com.fawns.service.entity.system.Role" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_role (
+			id,
+			name,
+	       	description,
+	       	status,
+	       	create_date,
+	       	create_oper_id
+		)
+		values(
+			#{id},
+			#{name},
+			#{description},
+			#{status},
+			#{createDate},
+			#{createOperId}
+		)
+	</insert>
+	
+	<!-- 删除角色信息 -->
+	<delete id="deleteRole" parameterType="int">
+		<![CDATA[
+			delete from sys_role where id = #{id}
+		]]>
+	</delete>
+	
+	<!--根据角色代码得到角色实体bean -->
+	<select id="getRole" resultType="com.fawns.service.entity.system.Role" parameterType="int">
+		select
+		id as id,
+       	description as description,
+       	name as name,
+       	status as status
+		from sys_role where id = #{id}
+	</select>
+	
+	<!-- 修改角色信息 -->
+	<update id="editRole" parameterType="com.fawns.service.entity.system.Role">
+		UPDATE sys_role 
+			<set>
+				<if test="name!=null">
+				name = #{name},
+				</if>
+				<if test="description!=null">
+				description = #{description},
+				</if>
+				<if test="status!=null">
+				status = #{status},
+				</if>
+				<if test="updateDate!=null">
+				update_date = #{updateDate},
+				</if>
+				<if test="updateOperId!=null">
+				update_oper_id = #{updateOperId},
+				</if>
+			</set>
+		WHERE 
+			id = #{id}
+	</update>
+	
+	<!-- 得到用户所拥有的角色 -->
+	<select id="queryUserHaveRoleList" resultMap="roleResultMap" parameterType="string">
+		select
+		<include refid="Base_Column_List" /> 
+		from sys_role r left join sys_user_role sur on r.id=sur.role_id where sur.user_id=#{username}
+	</select>
+	
+	<!-- 根据角色状态得到角色信息 -->
+	<select id="queryRoleListByStatus" resultMap="roleResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" /> 
+		from sys_role r where r.status=#{status}
+	</select>
+</mapper>

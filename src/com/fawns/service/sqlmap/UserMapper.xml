@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.fawns.service.dao.system.UserMapper">
+	<resultMap id="userResultMap" type="com.fawns.service.entity.system.User">
+		<result property="id" jdbcType="INTEGER" column="int"/>
+		<result property="username" jdbcType="VARCHAR" column="username"/>
+		<result property="password" jdbcType="VARCHAR" column="password"/>
+		<result property="realname" jdbcType="VARCHAR" column="realname"/>
+		<result property="departmentId" jdbcType="VARCHAR" column="departmentId"/>
+		<result property="positionId" jdbcType="VARCHAR" column="positionId"/>
+		<result property="status" jdbcType="VARCHAR" column="status"/>
+		<result property="lastLoginTime" jdbcType="TIMESTAMP" column="lastLoginTime"/>
+		<result property="createtime" jdbcType="TIMESTAMP" column="createtime"/>
+		<result property="createoperator" jdbcType="VARCHAR" column="createoperator"/>
+		<result property="updatetime" jdbcType="TIMESTAMP" column="updatetime"/>
+		<result property="updateoperator" jdbcType="VARCHAR" column="updateoperator"/>
+		<result property="departmentName" jdbcType="VARCHAR" column="departmentName"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		u.id,
+		u.username,
+		u.password,
+		u.realname,
+		u.departmentId,
+		u.positionId,
+		u.status,
+		u.createtime,
+		u.lastLoginTime,
+		u.createoperator,
+		u.updatetime,
+		u.updateoperator
+	</sql>
+	
+	<select id="getUser" parameterType="java.lang.String" resultMap="userResultMap">
+		SELECT 
+			<include refid="Base_Column_List" />,d.departmentid,d.name as departmentName
+		from sys_user u left join sys_department d on u.departmentId=d.departmentid
+		WHERE u.username = #{username} 
+	</select>
+	
+	<!-- 根据username删除 -->
+	<delete id="deleteUser" parameterType="java.lang.String">
+		DELETE FROM sys_user WHERE
+		username = #{username} 
+	</delete>
+	
+	 <!--用户添加-->
+	<insert id="addUser" parameterType="com.fawns.service.entity.system.User">
+		INSERT INTO sys_user (
+			id,
+			username,
+			password,
+			realname,
+			departmentId,
+			positionId,
+			status,
+			createtime,
+			createoperator
+		) VALUES (
+			#{id},
+			#{username},
+			#{password},
+			#{realname},
+			#{departmentId},
+			#{positionId},
+			#{status},
+			#{createtime},
+			#{createoperator}
+		)
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="editUser" parameterType="com.fawns.service.entity.system.User">
+		UPDATE sys_user 
+			<set>
+				<if test="realname!=null">
+				realname = #{realname},
+				</if>
+				<if test="password!=null">
+				password = #{password},
+				</if>
+				<if test="departmentId!=null">
+				departmentId = #{departmentId},
+				</if>
+				<if test="positionId!=null">
+				positionId = #{positionId},
+				</if>
+				<if test="status!=null">
+				status = #{status},
+				</if>
+				<if test="updatetime!=null">
+				updatetime = #{updatetime},
+				</if>
+				<if test="updateoperator!=null">
+				updateoperator = #{updateoperator},
+				</if>
+			</set>
+		WHERE 
+			username = #{username}
+	</update>
+	
+	<update id="updateStatus" parameterType="map">
+		UPDATE sys_user SET
+			status = #{status},
+			updatetime = #{updatetime},
+			updateoperator = #{updateoperator}
+		WHERE 
+			username = #{username}
+	</update>
+	
+	<update id="upLastLoginTime" parameterType="string">
+		UPDATE sys_user SET
+			lastLoginTime = now()
+		WHERE 
+			username = #{username}
+	</update>
+	
+	
+	<select id="queryUserListByCondition" resultMap="userResultMap" parameterType="map">
+		SELECT 
+	    <include refid="Base_Column_List" />,d.departmentid,d.name as departmentName
+		from sys_user u left join sys_department d on u.departmentId=d.departmentid
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<choose>
+			<when test="status != null and status != ''">
+				 AND u.status=#{status}  
+			</when>
+			<otherwise>
+				 AND u.status!='DELETED'
+			</otherwise>
+			</choose>
+			<if test="startDate != null and startDate != ''">
+				 AND u.create_date &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				 AND u.create_date &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND (
+					u.username LIKE "%"#{keywords}"%"
+					or u.realname LIKE "%"#{keywords}"%"
+				)
+      		</if>
+      	</trim>
+      	order by #{orderName} #{descAsc} limit #{startIndex},#{endIndex}
+	</select>
+	
+	<select id="queryUserNumByCondition" resultType="long" parameterType="map">
+		select count(0) as con from sys_user u
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<choose>
+			<when test="status != null and status != ''">
+				 AND u.status=#{status}  
+			</when>
+			<otherwise>
+				 AND u.status!='DELETED'
+			</otherwise>
+			</choose>
+			<if test="startDate != null and startDate != ''">
+				 AND u.create_date &gt;= #{startDate} 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				 AND u.create_date &lt;= #{endDate} 
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND (
+					u.username LIKE "%"#{keywords}"%"
+					or u.realname LIKE "%"#{keywords}"%"
+				)
+      		</if>
+      	</trim>
+	</select>
+	
+	<update id="updatePwd" parameterType="com.fawns.service.entity.system.User">
+		UPDATE sys_user SET
+			password = #{password}
+		WHERE
+			username = #{username}
+	</update>
+	
+	<select id="queryAllUserList" resultMap="userResultMap">
+		SELECT 
+	    <include refid="Base_Column_List" />
+		from sys_user u
+	</select>
+</mapper>
